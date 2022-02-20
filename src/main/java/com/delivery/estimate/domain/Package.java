@@ -17,6 +17,7 @@ public class Package {
     private BigDecimal deliveryDistance;
     private BigDecimal baseDeliveryCost;
     private final Offer offer;
+    private BigDecimal deliveryTime;
 
     public BigDecimal discount() {
         return offer.applyOn(this);

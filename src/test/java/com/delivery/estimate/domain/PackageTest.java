@@ -21,18 +21,20 @@ class PackageTest {
     }
 
     @Test
-    void shouldContainPackageIdWeightDeliveryDistanceAndBaseDeliveryCostAndOffer() {
+    void shouldContainPackageIdWeightDeliveryDistanceAndBaseDeliveryCostAndOfferAndDeliveryTime() {
         BigDecimal weight = BigDecimal.valueOf(100);
         BigDecimal deliveryDistance = BigDecimal.valueOf(100);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer, deliveryTime);
 
         assertEquals(packageId, packageItem.getId());
         assertEquals(deliveryDistance, packageItem.getDeliveryDistance());
         assertEquals(baseDeliveryCost, packageItem.getBaseDeliveryCost());
         assertEquals(weight, packageItem.getWeight());
         assertEquals(offer, packageItem.getOffer());
+        assertEquals(deliveryTime, packageItem.getDeliveryTime());
     }
 
     @Test
@@ -40,8 +42,9 @@ class PackageTest {
         BigDecimal weight = BigDecimal.valueOf(1);
         BigDecimal deliveryDistance = BigDecimal.valueOf(1);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer, deliveryTime);
 
         BigDecimal deliveryCost = packageItem.deliveryCost();
         assertNotNull(deliveryCost);
@@ -53,8 +56,9 @@ class PackageTest {
         BigDecimal weight = BigDecimal.valueOf(10);
         BigDecimal deliveryDistance = BigDecimal.valueOf(1);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer, deliveryTime);
 
         BigDecimal deliveryCost = packageItem.deliveryCost();
         assertNotNull(deliveryCost);
@@ -66,8 +70,9 @@ class PackageTest {
         BigDecimal weight = BigDecimal.valueOf(10);
         BigDecimal deliveryDistance = BigDecimal.valueOf(10);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer, deliveryTime);
 
         BigDecimal deliveryCost = packageItem.deliveryCost();
         assertNotNull(deliveryCost);
@@ -79,9 +84,10 @@ class PackageTest {
         BigDecimal weight = BigDecimal.valueOf(10);
         BigDecimal deliveryDistance = BigDecimal.valueOf(100);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
         Offer offer3 = new OFR003();
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer3);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer3, deliveryTime);
 
         assertEquals(BigDecimal.valueOf(700), packageItem.deliveryCost());
         assertEquals(new BigDecimal("35.00"), packageItem.discount());
@@ -93,9 +99,10 @@ class PackageTest {
         BigDecimal weight = BigDecimal.valueOf(5);
         BigDecimal deliveryDistance = BigDecimal.valueOf(5);
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
         Offer offer1 = new OFR001();
-        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer1);
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer1, deliveryTime);
 
         assertEquals(BigDecimal.valueOf(175), packageItem.deliveryCost());
         assertEquals(BigDecimal.ZERO, packageItem.discount());
@@ -106,8 +113,8 @@ class PackageTest {
                                       BigDecimal deliveryDistance,
                                       BigDecimal baseDeliveryCost,
                                       String packageId,
-                                      Offer offer
-    ) {
-        return new Package(packageId, weight, deliveryDistance, baseDeliveryCost, offer);
+                                      Offer offer,
+                                      BigDecimal deliveryTime) {
+        return new Package(packageId, weight, deliveryDistance, baseDeliveryCost, offer, deliveryTime);
     }
 }

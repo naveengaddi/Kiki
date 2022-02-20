@@ -15,7 +15,7 @@ public class PackageFactory {
                                         String offerCode,
                                         BigDecimal basePrice) {
         Offer offer = getOffer(offerCode);
-        return new Package(packageId, parcelWeight, deliveryDistance, basePrice, offer);
+        return new Package(packageId, parcelWeight, deliveryDistance, basePrice, offer, null);
     }
 
     private static Offer getOffer(String offerCode) {
