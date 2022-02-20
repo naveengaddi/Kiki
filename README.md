@@ -55,3 +55,8 @@ packageId2 discountAmount2 totalCost2
 ...
 ...
 ``` 
+
+### Scope for improvement
+
+1. Input parser can be improved with regex and groups.
+
