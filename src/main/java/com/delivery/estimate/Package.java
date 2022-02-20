@@ -1,5 +1,6 @@
 package com.delivery.estimate;
 
+import com.delivery.estimate.offer.Offer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,6 +16,7 @@ public class Package {
     private BigDecimal weight;
     private BigDecimal deliveryDistance;
     private BigDecimal baseDeliveryCost;
+    private final Offer offer;
 
     public BigDecimal deliveryCost() {
         BigDecimal weightCost = calculateCostFor(weight, WEIGHT_MULTIPLIER);
