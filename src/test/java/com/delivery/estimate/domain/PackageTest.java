@@ -1,4 +1,4 @@
-package com.delivery.estimate;
+package com.delivery.estimate.domain;
 
 import com.delivery.estimate.offer.NoOffer;
 import com.delivery.estimate.offer.OFR001;

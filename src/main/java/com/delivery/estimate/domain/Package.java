@@ -1,4 +1,4 @@
-package com.delivery.estimate;
+package com.delivery.estimate.domain;
 
 import com.delivery.estimate.offer.Offer;
 import lombok.AllArgsConstructor;
@@ -28,11 +28,11 @@ public class Package {
         return value.multiply(BigDecimal.valueOf(multiplier));
     }
 
-    BigDecimal discount() {
+    public BigDecimal discount() {
         return offer.applyOn(this);
     }
 
-    BigDecimal totalCost() {
+    public BigDecimal totalCost() {
         return deliveryCost().subtract(discount());
     }
 }

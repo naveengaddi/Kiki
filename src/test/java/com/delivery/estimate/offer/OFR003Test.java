@@ -1,6 +1,6 @@
 package com.delivery.estimate.offer;
 
-import com.delivery.estimate.Package;
+import com.delivery.estimate.domain.Package;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

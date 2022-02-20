@@ -1,6 +1,6 @@
 package com.delivery.estimate.offer;
 
-import com.delivery.estimate.Package;
+import com.delivery.estimate.domain.Package;
 
 import java.math.BigDecimal;
 
