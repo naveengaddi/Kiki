@@ -2,9 +2,11 @@ package com.delivery.estimate.offer;
 
 import com.delivery.estimate.Package;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+@NoArgsConstructor
 @AllArgsConstructor
 abstract public class Offer {
     private BigDecimal minWeight;
