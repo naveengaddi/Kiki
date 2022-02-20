@@ -12,11 +12,19 @@ public class Package {
     private static final int WEIGHT_MULTIPLIER = 10;
     private static final int DISTANCE_MULTIPLIER = 5;
 
-    private String id;
-    private BigDecimal weight;
-    private BigDecimal deliveryDistance;
-    private BigDecimal baseDeliveryCost;
+    private  String id;
+    private  BigDecimal weight;
+    private  BigDecimal deliveryDistance;
+    private  BigDecimal baseDeliveryCost;
     private final Offer offer;
+
+    public BigDecimal discount() {
+        return offer.applyOn(this);
+    }
+
+    public BigDecimal totalCost() {
+        return deliveryCost().subtract(discount());
+    }
 
     public BigDecimal deliveryCost() {
         BigDecimal weightCost = calculateCostFor(weight, WEIGHT_MULTIPLIER);
@@ -26,13 +34,5 @@ public class Package {
 
     private BigDecimal calculateCostFor(BigDecimal value, int multiplier) {
         return value.multiply(BigDecimal.valueOf(multiplier));
-    }
-
-    public BigDecimal discount() {
-        return offer.applyOn(this);
-    }
-
-    public BigDecimal totalCost() {
-        return deliveryCost().subtract(discount());
     }
 }
