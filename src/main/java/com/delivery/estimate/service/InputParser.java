@@ -1,6 +1,6 @@
 package com.delivery.estimate.service;
 
-import com.delivery.estimate.common.InputInvalidException;
+import com.delivery.estimate.exception.InputInvalidException;
 
 import java.math.BigDecimal;
 

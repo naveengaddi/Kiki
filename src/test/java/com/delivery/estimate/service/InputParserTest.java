@@ -1,7 +1,6 @@
 package com.delivery.estimate.service;
 
-import com.delivery.estimate.common.InputInvalidException;
-import com.delivery.estimate.service.InputParser;
+import com.delivery.estimate.exception.InputInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

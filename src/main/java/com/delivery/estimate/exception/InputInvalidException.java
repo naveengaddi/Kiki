@@ -1,4 +1,4 @@
-package com.delivery.estimate.common;
+package com.delivery.estimate.exception;
 
 public class InputInvalidException extends RuntimeException {
     public InputInvalidException(String message) {
