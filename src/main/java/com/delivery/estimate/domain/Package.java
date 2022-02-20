@@ -12,10 +12,10 @@ public class Package {
     private static final int WEIGHT_MULTIPLIER = 10;
     private static final int DISTANCE_MULTIPLIER = 5;
 
-    private  String id;
-    private  BigDecimal weight;
-    private  BigDecimal deliveryDistance;
-    private  BigDecimal baseDeliveryCost;
+    private String id;
+    private BigDecimal weight;
+    private BigDecimal deliveryDistance;
+    private BigDecimal baseDeliveryCost;
     private final Offer offer;
 
     public BigDecimal discount() {
