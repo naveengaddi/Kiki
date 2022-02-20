@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OFR001Test {
-    private OFR001 offer;
+    private Offer offer;
 
     @BeforeEach
     void setUp() {
