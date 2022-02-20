@@ -96,4 +96,44 @@ class InputParserTest {
         String offerCode = inputParser.extractOfferCode(input);
         assertEquals("Offer1", offerCode);
     }
+
+    @Test
+    void shouldReturnNumberOfVehiclesAs3() {
+        String input = "3 70 200";
+        Integer numberOfVehicles = inputParser.extractNumberOfVehicles(input);
+        assertEquals(3, numberOfVehicles);
+    }
+
+    @Test
+    void shouldReturnMaxSpeedAs70() {
+        String input = "3 70 200";
+        BigDecimal maxSpeed = inputParser.extractMaxSpeed(input);
+        assertEquals(BigDecimal.valueOf(70), maxSpeed);
+    }
+
+    @Test
+    void shouldReturnMaxLoadAs200() {
+        String input = "3 70 200";
+        BigDecimal maxLoad = inputParser.extractMaxLoad(input);
+        assertEquals(BigDecimal.valueOf(200), maxLoad);
+    }
+
+    @Test
+    void shouldThrowInvalidInputExceptionWhenUnableToExtractNumberOfVehicles() {
+        String input = "3ss 70 200";
+        assertThrows(InputInvalidException.class, () -> inputParser.extractNumberOfVehicles(input));
+    }
+
+    @Test
+    void shouldThrowInvalidInputExceptionWhenUnableToExtractMaxSpeed() {
+        String input = "3 70s 200";
+        assertThrows(InputInvalidException.class, () -> inputParser.extractMaxSpeed(input));
+    }
+
+    @Test
+    void shouldThrowInvalidInputExceptionWhenUnableToExtractMaxLoad() {
+        String input = "3 70 200d";
+        assertThrows(InputInvalidException.class, () -> inputParser.extractMaxLoad(input));
+    }
+
 }
