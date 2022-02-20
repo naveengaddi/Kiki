@@ -1,6 +1,8 @@
 package com.delivery.estimate;
 
 import com.delivery.estimate.offer.NoOffer;
+import com.delivery.estimate.offer.OFR001;
+import com.delivery.estimate.offer.OFR003;
 import com.delivery.estimate.offer.Offer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,6 +72,34 @@ class PackageTest {
         BigDecimal deliveryCost = packageItem.deliveryCost();
         assertNotNull(deliveryCost);
         assertEquals(BigDecimal.valueOf(250), deliveryCost);
+    }
+
+    @Test
+    void shouldReturnDeliveryCostAs700AndDiscountAs35AndTotalCostAs665WhenWeightIs10AndDistanceIs100OfferCode3IsApplied() {
+        BigDecimal weight = BigDecimal.valueOf(10);
+        BigDecimal deliveryDistance = BigDecimal.valueOf(100);
+        BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        String packageId = "PKG1";
+        Offer offer3 = new OFR003();
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer3);
+
+        assertEquals(BigDecimal.valueOf(700), packageItem.deliveryCost());
+        assertEquals(new BigDecimal("35.00"), packageItem.discount());
+        assertEquals(new BigDecimal("665.00"), packageItem.totalCost());
+    }
+
+    @Test
+    void shouldReturnDeliveryCostAs175AndDiscountAs0AndTotalCostAs175WhenWeightIs5AndDistanceIs5OfferCode1IsApplied() {
+        BigDecimal weight = BigDecimal.valueOf(5);
+        BigDecimal deliveryDistance = BigDecimal.valueOf(5);
+        BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        String packageId = "PKG1";
+        Offer offer1 = new OFR001();
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer1);
+
+        assertEquals(BigDecimal.valueOf(175), packageItem.deliveryCost());
+        assertEquals(BigDecimal.ZERO, packageItem.discount());
+        assertEquals(BigDecimal.valueOf(175), packageItem.totalCost());
     }
 
     private Package createPackageWith(BigDecimal weight,

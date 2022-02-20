@@ -27,4 +27,12 @@ public class Package {
     private BigDecimal calculateCostFor(BigDecimal value, int multiplier) {
         return value.multiply(BigDecimal.valueOf(multiplier));
     }
+
+    BigDecimal discount() {
+        return offer.applyOn(this);
+    }
+
+    BigDecimal totalCost() {
+        return deliveryCost().subtract(discount());
+    }
 }
