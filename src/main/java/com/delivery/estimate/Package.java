@@ -16,12 +16,10 @@ public class Package {
     private BigDecimal deliveryDistance;
     private BigDecimal baseDeliveryCost;
 
-    BigDecimal deliveryCost() {
+    public BigDecimal deliveryCost() {
         BigDecimal weightCost = calculateCostFor(weight, WEIGHT_MULTIPLIER);
         BigDecimal distanceCost = calculateCostFor(deliveryDistance, DISTANCE_MULTIPLIER);
-        return baseDeliveryCost
-                .add(weightCost)
-                .add(distanceCost);
+        return baseDeliveryCost.add(weightCost).add(distanceCost);
     }
 
     private BigDecimal calculateCostFor(BigDecimal value, int multiplier) {
