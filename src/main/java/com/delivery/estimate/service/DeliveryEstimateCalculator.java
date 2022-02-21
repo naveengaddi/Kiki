@@ -66,4 +66,8 @@ public class DeliveryEstimateCalculator {
     private boolean allPackagesDelivered(List<Package> packages) {
         return packages.stream().anyMatch(packageItem -> packageItem.getDeliveryTime()==null);
     }
+
+    public static DeliveryEstimateCalculator create() {
+        return new DeliveryEstimateCalculator(new VehicleSelectionStrategy(), new PackageSelectionStrategy());
+    }
 }
