@@ -5,8 +5,10 @@ import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.PackageFactory;
 import com.delivery.estimate.domain.Vehicle;
 import com.delivery.estimate.domain.VehicleFactory;
+import com.delivery.estimate.service.dto.BasePriceAndPackageCount;
+import com.delivery.estimate.service.dto.PackageDetails;
+import com.delivery.estimate.service.dto.VehicleDetails;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -30,21 +32,21 @@ public class DeliveryApp {
         List<Vehicle> vehicles;
         Logger.log("Please enter input");
         String packageInfo = scanner.nextLine();
-        BigDecimal basePrice = inputParser.extractBasePrice(packageInfo);
-        Integer numberOfPackages = inputParser.extractNumberOfPackages(packageInfo);
-        for (int index = 0; index < numberOfPackages; index++) {
+        BasePriceAndPackageCount priceAndPackageCount = inputParser.parseBasePriceAndPackageCount(packageInfo);
+        for (int index = 0; index < priceAndPackageCount.getNumberOfPackages(); index++) {
             String packageDetails = scanner.nextLine();
-            String packageId = inputParser.extractPackageId(packageDetails);
-            BigDecimal packageWeight = inputParser.extractPackageWeight(packageDetails);
-            BigDecimal packageDistance = inputParser.extractPackageDistance(packageDetails);
-            String offerCode = inputParser.extractOfferCode(packageDetails);
-            packages.add(PackageFactory.createPackage(packageId, packageWeight, packageDistance, offerCode, basePrice));
+            PackageDetails packageDetails1 = inputParser.parsePackageDetails(packageDetails);
+            packages.add(PackageFactory.createPackage(packageDetails1.getId(),
+                    packageDetails1.getWeight(),
+                    packageDetails1.getDeliveryDistance(),
+                    packageDetails1.getOfferCode(),
+                    priceAndPackageCount.getBasePrice()));
         }
         String vehicleDetails = scanner.nextLine();
-        Integer numberOfVehicles = inputParser.extractNumberOfVehicles(vehicleDetails);
-        BigDecimal maxLoad = inputParser.extractMaxLoad(vehicleDetails);
-        BigDecimal maxSpeed = inputParser.extractMaxSpeed(vehicleDetails);
-        vehicles = VehicleFactory.vehicles(numberOfVehicles, maxLoad, maxSpeed);
+        VehicleDetails vehicleDetails1 = inputParser.parseVehicleDetails(vehicleDetails);
+        vehicles = VehicleFactory.vehicles(vehicleDetails1.getNumberOfVehicles(),
+                vehicleDetails1.getMaxLoad(),
+                vehicleDetails1.getMaxSpeed());
         List<Package> packageList = deliveryEstimateCalculator.estimateDelivery(packages, vehicles);
         displayService.displayPackageEstimates(packageList);
     }

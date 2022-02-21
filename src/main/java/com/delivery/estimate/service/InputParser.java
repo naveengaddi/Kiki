@@ -1,80 +1,63 @@
 package com.delivery.estimate.service;
 
 import com.delivery.estimate.exception.InputInvalidException;
+import com.delivery.estimate.service.dto.BasePriceAndPackageCount;
+import com.delivery.estimate.service.dto.PackageDetails;
+import com.delivery.estimate.service.dto.VehicleDetails;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InputParser {
-    public BigDecimal extractBasePrice(String input) {
-        try {
-            String[] data = input.split(" ");
-            return new BigDecimal(data[0]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
+
+    public BasePriceAndPackageCount parseBasePriceAndPackageCount(String input) {
+        Pattern pattern = Pattern.compile("(\\d+) (\\d+)");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            BigDecimal basePrice = new BigDecimal(matcher.group(1));
+            Integer numberOfPackages = Integer.parseInt(matcher.group(2));
+            return BasePriceAndPackageCount.builder()
+                    .basePrice(basePrice)
+                    .numberOfPackages(numberOfPackages).build();
+        } else {
+            throw new InputInvalidException("Provided input format is incorrect");
         }
     }
 
-    public Integer extractNumberOfPackages(String input) {
-        try {
-            String[] data = input.split(" ");
-            return Integer.parseInt(data[1]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
+    public VehicleDetails parseVehicleDetails(String input) {
+        Pattern pattern = Pattern.compile("(\\d+) (\\d+) (\\d+)");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            Integer numberOfVehicles = Integer.parseInt(matcher.group(1));
+            BigDecimal maxSpeed = new BigDecimal(matcher.group(2));
+            BigDecimal maxLoad = new BigDecimal(matcher.group(3));
+            return VehicleDetails.builder()
+                    .numberOfVehicles(numberOfVehicles)
+                    .maxSpeed(maxSpeed)
+                    .maxLoad(maxLoad)
+                    .build();
+        } else {
+            throw new InputInvalidException("Provided input format is incorrect");
         }
     }
 
-    public String extractPackageId(String input) {
-        String[] data = input.split(" ");
-        return data[0];
-    }
-
-    public BigDecimal extractPackageWeight(String input) {
-        try {
-            String[] data = input.split(" ");
-            return new BigDecimal(data[1]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
-        }
-    }
-
-    public BigDecimal extractPackageDistance(String input) {
-        try {
-            String[] data = input.split(" ");
-            return new BigDecimal(data[2]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
-        }
-    }
-
-    public String extractOfferCode(String input) {
-        String[] data = input.split(" ");
-        return data[3];
-    }
-
-    public Integer extractNumberOfVehicles(String input) {
-        try {
-            String[] data = input.split(" ");
-            return Integer.parseInt(data[0]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
-        }
-    }
-
-    public BigDecimal extractMaxSpeed(String input) {
-        try {
-            String[] data = input.split(" ");
-            return new BigDecimal(data[1]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
-        }
-    }
-
-    public BigDecimal extractMaxLoad(String input) {
-        try {
-            String[] data = input.split(" ");
-            return new BigDecimal(data[2]);
-        } catch (Exception e) {
-            throw new InputInvalidException(e.getMessage());
+    public PackageDetails parsePackageDetails(String input) {
+        Pattern pattern = Pattern.compile("(\\w+) (\\d+) (\\d+) (\\w+)");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            String packageId = matcher.group(1);
+            BigDecimal weight = new BigDecimal(matcher.group(2));
+            BigDecimal deliveryDistance = new BigDecimal(matcher.group(3));
+            String offerCode = matcher.group(4);
+            return PackageDetails.builder()
+                    .id(packageId)
+                    .weight(weight)
+                    .deliveryDistance(deliveryDistance)
+                    .offerCode(offerCode)
+                    .build();
+        } else {
+            throw new InputInvalidException("Provided input format is incorrect");
         }
     }
 }
