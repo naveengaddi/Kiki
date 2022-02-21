@@ -1,24 +1,24 @@
 package com.delivery.estimate;
 
-import com.delivery.estimate.service.DeliveryApp;
+import com.delivery.estimate.service.DeliveryEstimateApp;
 import com.delivery.estimate.service.io.DisplayService;
 import com.delivery.estimate.service.io.InputParser;
 
 import java.util.Scanner;
 
 
-public class DeliveryEstimateApp {
+public class DeliveryEstimateAppMain {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        DeliveryApp deliveryApp = create();
+        DeliveryEstimateApp deliveryEstimateApp = create();
         String choice;
         do {
             Logger.log("Press enter key to start or enter Q to quit");
             choice = scanner.nextLine();
             if (!choice.equalsIgnoreCase("Q")) {
                 try {
-                    deliveryApp.start();
+                    deliveryEstimateApp.start();
                 } catch (Exception exception) {
                     Logger.log("Error occured " + exception.getMessage());
                 }
@@ -26,7 +26,7 @@ public class DeliveryEstimateApp {
         } while (!choice.equalsIgnoreCase("Q"));
     }
 
-    private static DeliveryApp create() {
-        return new DeliveryApp(new InputParser(), new DisplayService());
+    private static DeliveryEstimateApp create() {
+        return new DeliveryEstimateApp(new InputParser(), new DisplayService());
     }
 }

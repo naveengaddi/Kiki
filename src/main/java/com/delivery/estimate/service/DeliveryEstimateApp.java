@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class DeliveryApp {
+public class DeliveryEstimateApp {
     private final InputParser inputParser;
     private final DisplayService displayService;
     private final DeliveryEstimateService deliveryEstimateService;
     private Scanner scanner = new Scanner(System.in);
 
-    public DeliveryApp(InputParser inputParser, DisplayService displayService) {
+    public DeliveryEstimateApp(InputParser inputParser, DisplayService displayService) {
         this.inputParser = inputParser;
         this.displayService = displayService;
         this.deliveryEstimateService = DeliveryEstimateService.create();
