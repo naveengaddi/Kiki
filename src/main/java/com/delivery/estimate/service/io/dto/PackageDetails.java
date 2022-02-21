@@ -1,4 +1,4 @@
-package com.delivery.estimate.service.dto;
+package com.delivery.estimate.service.io.dto;
 
 import lombok.Builder;
 import lombok.Getter;

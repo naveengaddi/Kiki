@@ -1,9 +1,9 @@
 package com.delivery.estimate.service;
 
 import com.delivery.estimate.exception.InputInvalidException;
-import com.delivery.estimate.service.dto.BasePriceAndPackageCount;
-import com.delivery.estimate.service.dto.PackageDetails;
-import com.delivery.estimate.service.dto.VehicleDetails;
+import com.delivery.estimate.service.io.dto.BasePriceAndPackageCount;
+import com.delivery.estimate.service.io.dto.PackageDetails;
+import com.delivery.estimate.service.io.dto.VehicleDetails;
 import com.delivery.estimate.service.io.InputParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

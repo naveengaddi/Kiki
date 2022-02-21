@@ -5,9 +5,9 @@ import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.PackageFactory;
 import com.delivery.estimate.domain.Vehicle;
 import com.delivery.estimate.domain.VehicleFactory;
-import com.delivery.estimate.service.dto.BasePriceAndPackageCount;
-import com.delivery.estimate.service.dto.PackageDetails;
-import com.delivery.estimate.service.dto.VehicleDetails;
+import com.delivery.estimate.service.io.dto.BasePriceAndPackageCount;
+import com.delivery.estimate.service.io.dto.PackageDetails;
+import com.delivery.estimate.service.io.dto.VehicleDetails;
 import com.delivery.estimate.service.io.DisplayService;
 import com.delivery.estimate.service.io.InputParser;
 
