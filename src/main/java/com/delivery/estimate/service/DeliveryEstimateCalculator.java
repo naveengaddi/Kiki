@@ -66,9 +66,17 @@ public class DeliveryEstimateCalculator {
                 BigDecimal deliveryTime = calculateDeliveryTime(vehicle, packageItem);
                 packageItem.updateDeliveryTime(deliveryTime);
             });
-            BigDecimal deliveryTime = packagesToBeDelivered.stream().max(Comparator.comparing(Package::getDeliveryTime)).get().getDeliveryTime();
-            vehicle.updateAvailableTime(deliveryTime.multiply(BigDecimal.valueOf(2)));
+            BigDecimal deliveryTime = lastDeliveredPackageTime(packagesToBeDelivered);
+            updateVehicleNextAvailableTime(vehicle, deliveryTime);
         } while (allPackagesDelivered(packages));
+    }
+
+    private void updateVehicleNextAvailableTime(Vehicle vehicle, BigDecimal deliveryTime) {
+        vehicle.updateAvailableTime(deliveryTime.multiply(BigDecimal.valueOf(2)));
+    }
+
+    private BigDecimal lastDeliveredPackageTime(List<Package> packagesToBeDelivered) {
+        return packagesToBeDelivered.stream().max(Comparator.comparing(Package::getDeliveryTime)).get().getDeliveryTime();
     }
 
     private List<Package> packagesToDeliver() {
