@@ -10,7 +10,7 @@ import java.util.Map;
 public class OfferService {
     private final Map<String, Offer> offerCodes;
 
-    OfferService() {
+    public OfferService() {
         offerCodes = new HashMap<>();
         seedInitialData(); //Usually this will fetch from db.
     }
