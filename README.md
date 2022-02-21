@@ -62,6 +62,11 @@ packageId2 discountAmount2 totalCost2 estimatedDeliveryTime2
 ...
 ``` 
 
+### Architecture diagram
+
+![](architechture.png)
+
+
 ### Scope for improvement
 
 1. Input parser can be improved with regex and groups.
