@@ -25,7 +25,7 @@ applicable).
     java -jar build/libs/KikiDeliveryEstimate-1.0.jar
    ```
 
-## To Estimate cost
+## To Estimate cost and delivery time
 
 1. Clean build app
    `./gradlew clean build`
@@ -34,6 +34,12 @@ applicable).
 3. Provide input (like example below)
 
 ![](example.png)
+
+Note:
+1. Package Weight is in Kilograms(KG)
+2. Delivery Distance is in Kilometers(KM)
+3. Max Speed is in KM/Hour
+4. Estimated DeliveryTime is in hours
 
 ## Input and Output format
 
