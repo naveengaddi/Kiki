@@ -12,9 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DeliveryEstimateCalculatorTest {
+class DeliveryEstimateServiceTest {
 
-    private DeliveryEstimateCalculator deliveryEstimateCalculator;
+    private DeliveryEstimateService deliveryEstimateService;
     private VehicleSelectionStrategy vehicleSelectionStrategy;
     private PackageSelectionStrategy packageSelectionStrategy;
     private DeliveryTimeCalculator deliveryTimeCalculator;
@@ -24,7 +24,7 @@ class DeliveryEstimateCalculatorTest {
         vehicleSelectionStrategy = new VehicleSelectionStrategy();
         packageSelectionStrategy = new PackageSelectionStrategy();
         deliveryTimeCalculator = new DeliveryTimeCalculator();
-        deliveryEstimateCalculator = new DeliveryEstimateCalculator(
+        deliveryEstimateService = new DeliveryEstimateService(
                 vehicleSelectionStrategy,
                 packageSelectionStrategy,
                 deliveryTimeCalculator);
@@ -43,7 +43,7 @@ class DeliveryEstimateCalculatorTest {
         Package packageItem4 = PackageFactory.createPackage("PKG4", getDecimal("110"), getDecimal("60"), "OFR002", baseDeliveryCost);
         Package packageItem5 = PackageFactory.createPackage("PKG5", getDecimal("155"), getDecimal("95"), "NA", baseDeliveryCost);
         List<Package> packages = List.of(packageItem1, packageItem2, packageItem3, packageItem4, packageItem5);
-        List<Package> packageList = deliveryEstimateCalculator.estimateDelivery(packages, vehicles);
+        List<Package> packageList = deliveryEstimateService.estimateDelivery(packages, vehicles);
         packageList.forEach(System.out::println);
         assertEquals(getDecimal("3.98"), packageItem1.getDeliveryTime());
         assertEquals(getDecimal("1.78"), packageItem2.getDeliveryTime());
