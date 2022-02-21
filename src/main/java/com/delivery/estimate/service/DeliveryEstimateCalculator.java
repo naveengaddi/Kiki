@@ -56,6 +56,12 @@ public class DeliveryEstimateCalculator {
         vehicles = VehicleFactory.vehicles(numberOfVehicles, maxLoad, maxSpeed);
         calculateDeliveryTime();
         displayService.displayPackageEstimates(packages);
+        resetData();
+    }
+
+    private void resetData() {
+        packages = new ArrayList<>();
+        vehicles = new ArrayList<>();
     }
 
     private void calculateDeliveryTime() {
