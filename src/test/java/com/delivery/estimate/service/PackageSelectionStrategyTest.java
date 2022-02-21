@@ -1,6 +1,7 @@
 package com.delivery.estimate.service;
 
 import com.delivery.estimate.domain.Package;
+import com.delivery.estimate.service.technical.PackageSelectionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

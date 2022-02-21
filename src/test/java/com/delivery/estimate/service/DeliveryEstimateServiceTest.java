@@ -3,6 +3,9 @@ package com.delivery.estimate.service;
 import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.PackageFactory;
 import com.delivery.estimate.domain.Vehicle;
+import com.delivery.estimate.service.technical.DeliveryTimeCalculator;
+import com.delivery.estimate.service.technical.PackageSelectionStrategy;
+import com.delivery.estimate.service.technical.VehicleSelectionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

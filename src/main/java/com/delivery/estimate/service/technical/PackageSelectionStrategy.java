@@ -1,4 +1,4 @@
-package com.delivery.estimate.service;
+package com.delivery.estimate.service.technical;
 
 import com.delivery.estimate.domain.Package;
 import com.google.common.collect.Sets;

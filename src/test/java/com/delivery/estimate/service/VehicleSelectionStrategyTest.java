@@ -1,6 +1,7 @@
 package com.delivery.estimate.service;
 
 import com.delivery.estimate.domain.Vehicle;
+import com.delivery.estimate.service.technical.VehicleSelectionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

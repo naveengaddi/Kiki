@@ -1,4 +1,4 @@
-package com.delivery.estimate.service;
+package com.delivery.estimate.service.io;
 
 import com.delivery.estimate.exception.InputInvalidException;
 import com.delivery.estimate.service.dto.BasePriceAndPackageCount;

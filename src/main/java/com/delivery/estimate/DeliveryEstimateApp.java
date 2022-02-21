@@ -1,8 +1,8 @@
 package com.delivery.estimate;
 
 import com.delivery.estimate.service.DeliveryApp;
-import com.delivery.estimate.service.DisplayService;
-import com.delivery.estimate.service.InputParser;
+import com.delivery.estimate.service.io.DisplayService;
+import com.delivery.estimate.service.io.InputParser;
 
 import java.util.Scanner;
 
