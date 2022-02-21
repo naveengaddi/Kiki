@@ -92,7 +92,5 @@ PKG5 0 2125 4.19
 
 
 ### Scope for improvement
-
-1. Input parser can be improved with regex and groups.
-2. Package selection strategy is little complex so can be improved.
+1. Package selection strategy is little complex so can be improved.
 
