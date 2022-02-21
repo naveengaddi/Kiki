@@ -3,14 +3,13 @@ package com.delivery.estimate.offer;
 import com.delivery.estimate.domain.Package;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-abstract public class Offer {
+public class Offer {
+    private String code;
     private BigDecimal minWeight;
     private BigDecimal maxWeight;
     private BigDecimal minDistance;

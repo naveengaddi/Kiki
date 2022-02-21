@@ -1,14 +1,13 @@
 package com.delivery.estimate.domain;
 
 import com.delivery.estimate.offer.NoOffer;
-import com.delivery.estimate.offer.OFR001;
-import com.delivery.estimate.offer.OFR003;
 import com.delivery.estimate.offer.Offer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static com.delivery.estimate.offer.OfferTest.createOffer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -98,7 +97,14 @@ class PackageTest {
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
         BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Offer offer3 = new OFR003();
+        Offer offer3 = createOffer(
+                "OFR003",
+                BigDecimal.valueOf(10),
+                BigDecimal.valueOf(150),
+                BigDecimal.valueOf(50),
+                BigDecimal.valueOf(250),
+                BigDecimal.valueOf(5)
+        );
         Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer3, deliveryTime);
 
         assertEquals(BigDecimal.valueOf(700), packageItem.deliveryCost());
@@ -113,7 +119,14 @@ class PackageTest {
         BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
         BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
         String packageId = "PKG1";
-        Offer offer1 = new OFR001();
+        Offer offer1 = createOffer(
+                "OFR001",
+                BigDecimal.valueOf(70),
+                BigDecimal.valueOf(200),
+                BigDecimal.valueOf(0),
+                BigDecimal.valueOf(199),
+                BigDecimal.valueOf(10)
+        );
         Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer1, deliveryTime);
 
         assertEquals(BigDecimal.valueOf(175), packageItem.deliveryCost());

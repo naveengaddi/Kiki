@@ -1,13 +1,11 @@
 package com.delivery.estimate.domain;
 
 import com.delivery.estimate.offer.NoOffer;
-import com.delivery.estimate.offer.OFR001;
-import com.delivery.estimate.offer.OFR002;
-import com.delivery.estimate.offer.OFR003;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static com.delivery.estimate.offer.OfferTest.createOffer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,7 +23,14 @@ class PackageFactoryTest {
         assertEquals(baseDeliveryCost, packageItem.getBaseDeliveryCost());
         assertEquals(parcelWeight, packageItem.getWeight());
         assertEquals(deliveryDistance, packageItem.getDeliveryDistance());
-        assertEquals(new OFR001(), packageItem.getOffer());
+        assertEquals(createOffer(
+                "OFR001",
+                BigDecimal.valueOf(70),
+                BigDecimal.valueOf(200),
+                BigDecimal.valueOf(0),
+                BigDecimal.valueOf(199),
+                BigDecimal.valueOf(10)
+        ), packageItem.getOffer());
     }
 
     @Test
@@ -41,7 +46,14 @@ class PackageFactoryTest {
         assertEquals(baseDeliveryCost, packageItem.getBaseDeliveryCost());
         assertEquals(parcelWeight, packageItem.getWeight());
         assertEquals(deliveryDistance, packageItem.getDeliveryDistance());
-        assertEquals(new OFR002(), packageItem.getOffer());
+        assertEquals(createOffer(
+                "OFR002",
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(250),
+                BigDecimal.valueOf(50),
+                BigDecimal.valueOf(150),
+                BigDecimal.valueOf(7)
+        ), packageItem.getOffer());
     }
 
     @Test
@@ -57,7 +69,14 @@ class PackageFactoryTest {
         assertEquals(baseDeliveryCost, packageItem.getBaseDeliveryCost());
         assertEquals(parcelWeight, packageItem.getWeight());
         assertEquals(deliveryDistance, packageItem.getDeliveryDistance());
-        assertEquals(new OFR003(), packageItem.getOffer());
+        assertEquals(createOffer(
+                "OFR003",
+                BigDecimal.valueOf(10),
+                BigDecimal.valueOf(150),
+                BigDecimal.valueOf(50),
+                BigDecimal.valueOf(250),
+                BigDecimal.valueOf(5)
+        ), packageItem.getOffer());
     }
 
     @Test
