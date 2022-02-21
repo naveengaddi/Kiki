@@ -3,6 +3,8 @@ package com.delivery.estimate;
 import com.delivery.estimate.service.DeliveryEstimateCalculator;
 import com.delivery.estimate.service.DisplayService;
 import com.delivery.estimate.service.InputParser;
+import com.delivery.estimate.service.PackageSelectionStrategy;
+import com.delivery.estimate.service.VehicleSelectionStrategy;
 
 import java.util.Scanner;
 
@@ -27,6 +29,11 @@ public class DeliveryEstimateApp {
     }
 
     private static DeliveryEstimateCalculator createDeliveryEstimateCalculator() {
-        return new DeliveryEstimateCalculator(new InputParser(), new DisplayService());
+        return new DeliveryEstimateCalculator(
+                new InputParser(),
+                new DisplayService(),
+                new VehicleSelectionStrategy(),
+                new PackageSelectionStrategy()
+        );
     }
 }

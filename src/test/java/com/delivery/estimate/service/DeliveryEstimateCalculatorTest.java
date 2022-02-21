@@ -18,13 +18,22 @@ class DeliveryEstimateCalculatorTest {
     private InputParser inputParserMock;
     private Scanner scannerMock;
     private DisplayService displayServiceMock;
+    private VehicleSelectionStrategy vehicleSelectionStrategy;
+    private PackageSelectionStrategy packageSelectionStrategy;
 
     @BeforeEach
     void setUp() {
         inputParserMock = mock(InputParser.class);
         scannerMock = mock(Scanner.class);
         displayServiceMock = mock(DisplayService.class);
-        deliveryEstimateCalculator = new DeliveryEstimateCalculator(inputParserMock, displayServiceMock);
+        vehicleSelectionStrategy = mock(VehicleSelectionStrategy.class);
+        packageSelectionStrategy = mock(PackageSelectionStrategy.class);
+        deliveryEstimateCalculator = new DeliveryEstimateCalculator(
+                inputParserMock,
+                displayServiceMock,
+                vehicleSelectionStrategy,
+                packageSelectionStrategy
+        );
     }
 
     @Test
