@@ -56,8 +56,8 @@ packageId2 packageWeight2 deliveryDistance2 offerCode2
 Output format:
 
 ```
-packageId1 discountAmount1 totalCost1
-packageId2 discountAmount2 totalCost2
+packageId1 discountAmount1 totalCost1 estimatedDeliveryTime1
+packageId2 discountAmount2 totalCost2 estimatedDeliveryTime2
 ...
 ...
 ``` 
