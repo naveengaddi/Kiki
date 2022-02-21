@@ -17,12 +17,17 @@ class DeliveryEstimateCalculatorTest {
     private DeliveryEstimateCalculator deliveryEstimateCalculator;
     private VehicleSelectionStrategy vehicleSelectionStrategy;
     private PackageSelectionStrategy packageSelectionStrategy;
+    private DeliveryTimeCalculator deliveryTimeCalculator;
 
     @BeforeEach
     void setUp() {
         vehicleSelectionStrategy = new VehicleSelectionStrategy();
         packageSelectionStrategy = new PackageSelectionStrategy();
-        deliveryEstimateCalculator = new DeliveryEstimateCalculator(vehicleSelectionStrategy, packageSelectionStrategy);
+        deliveryTimeCalculator = new DeliveryTimeCalculator();
+        deliveryEstimateCalculator = new DeliveryEstimateCalculator(
+                vehicleSelectionStrategy,
+                packageSelectionStrategy,
+                deliveryTimeCalculator);
     }
 
     @Test

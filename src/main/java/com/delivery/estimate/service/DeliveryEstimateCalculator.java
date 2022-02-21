@@ -4,7 +4,6 @@ import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.Vehicle;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,14 +13,17 @@ public class DeliveryEstimateCalculator {
 
     private final VehicleSelectionStrategy vehicleSelectionStrategy;
     private final PackageSelectionStrategy packageSelectionStrategy;
+    private DeliveryTimeCalculator deliveryTimeCalculator;
     private List<Package> packages;
     private List<Vehicle> vehicles;
 
     public DeliveryEstimateCalculator(
             VehicleSelectionStrategy vehicleSelectionStrategy,
-            PackageSelectionStrategy packageSelectionStrategy) {
+            PackageSelectionStrategy packageSelectionStrategy,
+            DeliveryTimeCalculator deliveryTimeCalculator) {
         this.vehicleSelectionStrategy = vehicleSelectionStrategy;
         this.packageSelectionStrategy = packageSelectionStrategy;
+        this.deliveryTimeCalculator = deliveryTimeCalculator;
     }
 
     List<Package> estimateDelivery(List<Package> packages, List<Vehicle> vehicles) {
@@ -30,7 +32,7 @@ public class DeliveryEstimateCalculator {
             Vehicle vehicle = vehicleSelectionStrategy.findVehicleWithMinimumWaitTime(vehicles);
             List<Package> packagesToBeDelivered = packageSelectionStrategy.findPackagesWithin(vehicle.getMaxLoad(), packagesToDeliver());
             packagesToBeDelivered.forEach(packageItem -> {
-                BigDecimal deliveryTime = calculateDeliveryTime(vehicle, packageItem);
+                BigDecimal deliveryTime = deliveryTimeCalculator.calculate(vehicle, packageItem);
                 packageItem.updateDeliveryTime(deliveryTime);
             });
             BigDecimal deliveryTime = lastDeliveredPackageTime(packagesToBeDelivered);
@@ -58,16 +60,15 @@ public class DeliveryEstimateCalculator {
                 collect(Collectors.toList());
     }
 
-    private BigDecimal calculateDeliveryTime(Vehicle vehicle, Package packageItem) {
-        return vehicle.getAvailableAt()
-                .add(packageItem.getDeliveryDistance().divide(vehicle.getMaxSpeed(), 2, RoundingMode.DOWN));
-    }
-
     private boolean allPackagesDelivered(List<Package> packages) {
         return packages.stream().anyMatch(packageItem -> packageItem.getDeliveryTime()==null);
     }
 
     public static DeliveryEstimateCalculator create() {
-        return new DeliveryEstimateCalculator(new VehicleSelectionStrategy(), new PackageSelectionStrategy());
+        return new DeliveryEstimateCalculator(
+                new VehicleSelectionStrategy(),
+                new PackageSelectionStrategy(),
+                new DeliveryTimeCalculator()
+        );
     }
 }
