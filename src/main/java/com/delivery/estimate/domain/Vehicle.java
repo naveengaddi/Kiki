@@ -11,4 +11,8 @@ public class Vehicle {
     private final BigDecimal maxLoad;
     private final BigDecimal maxSpeed;
     private BigDecimal availableAt;
+
+    public void updateAvailableTime(BigDecimal nextAvailableTime) {
+        this.availableAt = this.availableAt.add(nextAvailableTime);
+    }
 }
