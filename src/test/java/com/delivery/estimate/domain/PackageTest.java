@@ -38,6 +38,18 @@ class PackageTest {
     }
 
     @Test
+    void shouldUpdateDeliveryTime() {
+        BigDecimal weight = BigDecimal.valueOf(100);
+        BigDecimal deliveryDistance = BigDecimal.valueOf(100);
+        BigDecimal baseDeliveryCost = BigDecimal.valueOf(100);
+        BigDecimal deliveryTime = BigDecimal.valueOf(1.0);
+        String packageId = "PKG1";
+        Package packageItem = createPackageWith(weight, deliveryDistance, baseDeliveryCost, packageId, offer, deliveryTime);
+        packageItem.updateDeliveryTime(BigDecimal.TEN);
+        assertEquals(BigDecimal.TEN, packageItem.getDeliveryTime());
+    }
+
+    @Test
     void shouldReturnDeliveryCostAs115() {
         BigDecimal weight = BigDecimal.valueOf(1);
         BigDecimal deliveryDistance = BigDecimal.valueOf(1);

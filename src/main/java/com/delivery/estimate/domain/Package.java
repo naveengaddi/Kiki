@@ -27,6 +27,10 @@ public class Package {
         return deliveryCost().subtract(discount());
     }
 
+    public void updateDeliveryTime(BigDecimal deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
     public BigDecimal deliveryCost() {
         BigDecimal weightCost = calculateCostFor(weight, WEIGHT_MULTIPLIER);
         BigDecimal distanceCost = calculateCostFor(deliveryDistance, DISTANCE_MULTIPLIER);
