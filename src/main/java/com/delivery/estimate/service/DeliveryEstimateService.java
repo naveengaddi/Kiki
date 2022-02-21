@@ -31,14 +31,18 @@ public class DeliveryEstimateService {
         do {
             Vehicle vehicle = vehicleSelectionStrategy.findVehicleWithMinimumWaitTime(vehicles);
             List<Package> packagesToBeDelivered = packageSelectionStrategy.findPackagesWithin(vehicle.getMaxLoad(), packagesToDeliverNext(packages));
-            packagesToBeDelivered.forEach(packageItem -> {
-                BigDecimal deliveryTime = deliveryTimeCalculator.calculate(vehicle, packageItem);
-                packageItem.updateDeliveryTime(deliveryTime);
-            });
+            updateDeliveryTimeForPackages(vehicle, packagesToBeDelivered);
             BigDecimal deliveryTime = lastDeliveredPackageTime(packagesToBeDelivered);
             updateVehicleNextAvailableTime(vehicle, deliveryTime);
-        } while (allPackagesDelivered(packages));
+        } while (allPackagesEstimated(packages));
         return packages;
+    }
+
+    private void updateDeliveryTimeForPackages(Vehicle vehicle, List<Package> packagesToBeDelivered) {
+        packagesToBeDelivered.forEach(packageItem -> {
+            BigDecimal deliveryTime = deliveryTimeCalculator.calculate(vehicle, packageItem);
+            packageItem.updateDeliveryTime(deliveryTime);
+        });
     }
 
     private void updateVehicleNextAvailableTime(Vehicle vehicle, BigDecimal deliveryTime) {
@@ -55,7 +59,7 @@ public class DeliveryEstimateService {
                 collect(Collectors.toList());
     }
 
-    private boolean allPackagesDelivered(List<Package> packages) {
+    private boolean allPackagesEstimated(List<Package> packages) {
         return packages.stream().anyMatch(packageItem -> packageItem.getDeliveryTime()==null);
     }
 
