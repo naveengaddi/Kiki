@@ -3,9 +3,11 @@ package com.delivery.estimate.offer;
 import com.delivery.estimate.domain.Package;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
+@Getter
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Offer {
