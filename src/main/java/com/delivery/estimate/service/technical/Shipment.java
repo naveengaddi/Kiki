@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
 @Getter
 @NoArgsConstructor
@@ -57,5 +58,9 @@ public class Shipment extends ArrayList<Package> {
             return false;
         }
         return that.getTotalDeliveryDistance().compareTo(this.getTotalDeliveryDistance()) > 0;
+    }
+
+    public BigDecimal lastPackageDeliveryTime() {
+        return this.stream().max(Comparator.comparing(Package::getDeliveryTime)).get().getDeliveryTime();
     }
 }

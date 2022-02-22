@@ -221,4 +221,25 @@ class ShipmentTest {
         assertTrue(shipment.add(packageItem1));
         assertFalse(shipment.add(packageItem1));
     }
+
+    @Test
+    void shouldReturnPackageDeliveryTimeWhichIsMax() {
+        Package packageItem1 = mock(Package.class);
+        Package packageItem2 = mock(Package.class);
+        Package packageItem3 = mock(Package.class);
+        when(packageItem1.getWeight()).thenReturn(BigDecimal.valueOf(100));
+        when(packageItem2.getWeight()).thenReturn(BigDecimal.valueOf(100));
+        when(packageItem3.getWeight()).thenReturn(BigDecimal.valueOf(100));
+        when(packageItem1.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(90));
+        when(packageItem2.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(60));
+        when(packageItem3.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(60));
+        when(packageItem1.getDeliveryTime()).thenReturn(BigDecimal.valueOf(60));
+        when(packageItem2.getDeliveryTime()).thenReturn(BigDecimal.valueOf(89));
+        when(packageItem3.getDeliveryTime()).thenReturn(BigDecimal.valueOf(60));
+        Shipment shipment = new Shipment(BigDecimal.valueOf(300));
+        shipment.add(packageItem1);
+        shipment.add(packageItem2);
+        shipment.add(packageItem3);
+        assertEquals(BigDecimal.valueOf(89), shipment.lastPackageDeliveryTime());
+    }
 }

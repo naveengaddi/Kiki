@@ -4,6 +4,7 @@ import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.Vehicle;
 import com.delivery.estimate.service.technical.DeliveryTimeCalculator;
 import com.delivery.estimate.service.technical.PackageSelectionStrategy;
+import com.delivery.estimate.service.technical.Shipment;
 import com.delivery.estimate.service.technical.VehicleSelectionStrategy;
 
 import java.math.BigDecimal;
@@ -30,9 +31,9 @@ public class DeliveryEstimateService {
     List<Package> estimateDelivery(List<Package> packages, List<Vehicle> vehicles) {
         do {
             Vehicle vehicle = vehicleSelectionStrategy.findVehicleWithMinimumWaitTime(vehicles);
-            List<Package> packagesToBeDelivered = packageSelectionStrategy.findPackagesWithin(vehicle.getMaxLoad(), packagesToDeliverNext(packages));
-            updateDeliveryTimeForPackages(vehicle, packagesToBeDelivered);
-            BigDecimal deliveryTime = lastDeliveredPackageTime(packagesToBeDelivered);
+            Shipment shipment = packageSelectionStrategy.findPackagesWithin(vehicle.getMaxLoad(), packagesToDeliverNext(packages));
+            updateDeliveryTimeForPackages(vehicle, shipment);
+            BigDecimal deliveryTime = shipment.lastPackageDeliveryTime();
             updateVehicleNextAvailableTime(vehicle, deliveryTime);
         } while (allPackagesEstimated(packages));
         return packages;
@@ -47,10 +48,6 @@ public class DeliveryEstimateService {
 
     private void updateVehicleNextAvailableTime(Vehicle vehicle, BigDecimal deliveryTime) {
         vehicle.updateAvailableTime(deliveryTime.multiply(BigDecimal.valueOf(2)));
-    }
-
-    private BigDecimal lastDeliveredPackageTime(List<Package> packagesToBeDelivered) {
-        return packagesToBeDelivered.stream().max(Comparator.comparing(Package::getDeliveryTime)).get().getDeliveryTime();
     }
 
     private List<Package> packagesToDeliverNext(List<Package> packages) {
