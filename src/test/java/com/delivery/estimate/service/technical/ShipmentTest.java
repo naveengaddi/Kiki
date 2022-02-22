@@ -209,4 +209,16 @@ class ShipmentTest {
         assertEquals(BigDecimal.ZERO, shipment.getTotalWeight());
         assertEquals(BigDecimal.ZERO, shipment.getTotalDeliveryDistance());
     }
+
+
+    @Test
+    void shouldReturnFalseIfAddingPackagesMoreThanCapacity() {
+        Package packageItem1 = mock(Package.class);
+        when(packageItem1.getWeight()).thenReturn(BigDecimal.valueOf(100));
+        when(packageItem1.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(60));
+        Shipment shipment = new Shipment(BigDecimal.valueOf(200));
+        assertTrue(shipment.add(packageItem1));
+        assertTrue(shipment.add(packageItem1));
+        assertFalse(shipment.add(packageItem1));
+    }
 }

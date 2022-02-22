@@ -2,17 +2,21 @@ package com.delivery.estimate.service.technical;
 
 import com.delivery.estimate.domain.Package;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
+@NoArgsConstructor
 public class Shipment extends ArrayList<Package> {
     private BigDecimal totalWeight = BigDecimal.ZERO;
     private BigDecimal totalDeliveryDistance = BigDecimal.ZERO;
+    private BigDecimal maxCapacity = BigDecimal.valueOf(1000); //TODO : change this
 
-    public Shipment() {
+    public Shipment(BigDecimal maxCapacity) {
+        this.maxCapacity = maxCapacity;
     }
 
     public Shipment(Collection<? extends Package> c) {
@@ -21,9 +25,12 @@ public class Shipment extends ArrayList<Package> {
 
     @Override
     public boolean add(Package packageItem) {
-        totalWeight = totalWeight.add(packageItem.getWeight());
-        totalDeliveryDistance = totalDeliveryDistance.add(packageItem.getDeliveryDistance());
-        return super.add(packageItem);
+        if (totalWeight.add(packageItem.getWeight()).compareTo(maxCapacity) <= 0) {
+            totalWeight = totalWeight.add(packageItem.getWeight());
+            totalDeliveryDistance = totalDeliveryDistance.add(packageItem.getDeliveryDistance());
+            return super.add(packageItem);
+        }
+        return false;
     }
 
     @Override

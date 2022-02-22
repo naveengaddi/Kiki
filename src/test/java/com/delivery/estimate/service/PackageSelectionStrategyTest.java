@@ -190,7 +190,7 @@ class PackageSelectionStrategyTest {
     }
 
     @Test
-    void name() {
+    void shouldReturnPackage3() {
         List<Package> packages = new ArrayList<>();
         packages.add(PackageFactory.createPackage("pkg1", BigDecimal.valueOf(50), BigDecimal.valueOf(30), "OFR001", null));
         packages.add(PackageFactory.createPackage("pkg3", BigDecimal.valueOf(175), BigDecimal.valueOf(100), "OFR001", null));

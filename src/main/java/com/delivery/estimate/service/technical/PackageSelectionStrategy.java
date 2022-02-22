@@ -11,27 +11,22 @@ import java.util.stream.Collectors;
 public class PackageSelectionStrategy {
 
     public List<Package> findPackagesWithin(BigDecimal maxCapacity, List<Package> packages) {
-        if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) <= 0) {
-            return packages;
-        }
+
         if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) > 0) {
             return Collections.emptyList();
         }
         List<Package> sortedPackages = sortByWeight(packages);
 
-        Shipment selectedShipment = new Shipment();
+        Shipment selectedShipment = new Shipment(maxCapacity);
         int size = sortedPackages.size();
         for (int i = 0; i < size; i++) {
-            Shipment currentShipment = new Shipment();
+            Shipment currentShipment = new Shipment(maxCapacity);
             currentShipment.add(sortedPackages.get(i));
             for (int j = i + 1; j < size; j++) {
                 currentShipment.clear();
                 currentShipment.add(sortedPackages.get(i));
                 for (int k = j; k < size; k++) {
-                    Package currentPackage = sortedPackages.get(k);
-                    if (isTotalWeightWithin(maxCapacity, currentShipment, currentPackage)) {
-                        currentShipment.add(currentPackage);
-                    } else {
+                    if (!currentShipment.add(sortedPackages.get(k))) {
                         break;
                     }
                 }
@@ -48,10 +43,5 @@ public class PackageSelectionStrategy {
 
     private List<Package> sortByWeight(List<Package> packages) {
         return packages.stream().sorted(Comparator.comparing(Package::getWeight)).collect(Collectors.toList());
-    }
-
-    private boolean isTotalWeightWithin(BigDecimal maxCapacity, Shipment shipment, Package currentPackage) {
-        BigDecimal currentWeight = shipment.getTotalWeight();
-        return currentWeight.add(currentPackage.getWeight()).compareTo(maxCapacity) <= 0;
     }
 }
