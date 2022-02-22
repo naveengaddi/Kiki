@@ -25,20 +25,27 @@ public class PackageSelectionStrategy {
             for (int j = i + 1; j < size; j++) {
                 currentShipment.clear();
                 currentShipment.add(sortedPackages.get(i));
-                for (int k = j; k < size; k++) {
-                    if (!currentShipment.add(sortedPackages.get(k))) {
-                        break;
-                    }
-                }
-                if (currentShipment.isBetterThan(selectedShipment)) {
-                    selectedShipment = new Shipment(currentShipment);
-                }
+                addPackagesTo(currentShipment, sortedPackages, j, size);
+                selectedShipment = selectBetterShipment(selectedShipment, currentShipment);
             }
-            if (currentShipment.isBetterThan(selectedShipment)) {
-                selectedShipment = new Shipment(currentShipment);
-            }
+            selectedShipment = selectBetterShipment(selectedShipment, currentShipment);
         }
         return selectedShipment;
+    }
+
+    private Shipment selectBetterShipment(Shipment selectedShipment, Shipment currentShipment) {
+        if (currentShipment.isBetterThan(selectedShipment)) {
+            selectedShipment = new Shipment(currentShipment);
+        }
+        return selectedShipment;
+    }
+
+    private void addPackagesTo(Shipment currentShipment, List<Package> sortedPackages, int fromIndex, int toIndex) {
+        for (int k = fromIndex; k < toIndex; k++) {
+            if (!currentShipment.add(sortedPackages.get(k))) {
+                break;
+            }
+        }
     }
 
     private List<Package> sortByWeight(List<Package> packages) {
