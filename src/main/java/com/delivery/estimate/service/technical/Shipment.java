@@ -38,4 +38,20 @@ public class Shipment extends ArrayList<Package> {
         c.forEach(this::add);
         return true;
     }
+
+    public boolean isBetterThan(Shipment that) {
+        if (that.size() < this.size()) {
+            return true;
+        }
+        if (that.size() > this.size()) {
+            return false;
+        }
+        if (that.getTotalWeight().compareTo(this.getTotalWeight()) < 0) {
+            return true;
+        }
+        if (that.getTotalWeight().compareTo(this.getTotalWeight()) > 0) {
+            return false;
+        }
+        return that.getTotalDeliveryDistance().compareTo(this.getTotalDeliveryDistance()) > 0;
+    }
 }

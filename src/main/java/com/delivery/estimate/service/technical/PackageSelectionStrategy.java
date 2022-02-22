@@ -35,37 +35,19 @@ public class PackageSelectionStrategy {
                         break;
                     }
                 }
-                selectedShipment = findOptimalPackages(selectedShipment, currentShipment);
+                if (currentShipment.isBetterThan(selectedShipment)) {
+                    selectedShipment = new Shipment(currentShipment);
+                }
             }
-            selectedShipment = findOptimalPackages(selectedShipment, currentShipment);
+            if (currentShipment.isBetterThan(selectedShipment)) {
+                selectedShipment = new Shipment(currentShipment);
+            }
         }
         return selectedShipment;
     }
 
     private List<Package> sortByWeight(List<Package> packages) {
         return packages.stream().sorted(Comparator.comparing(Package::getWeight)).collect(Collectors.toList());
-    }
-
-    private Shipment findOptimalPackages(Shipment previousShipment, Shipment currentShipment) {
-
-        if (currentShipment.size() < previousShipment.size()) {
-            return previousShipment;
-        }
-        if (currentShipment.size() > previousShipment.size()) {
-            return new Shipment(currentShipment);
-        }
-        if (currentShipment.getTotalWeight().compareTo(previousShipment.getTotalWeight()) < 0) {
-            return previousShipment;
-        }
-        if (currentShipment.getTotalWeight().compareTo(previousShipment.getTotalWeight()) > 0) {
-            return new Shipment(currentShipment);
-        }
-
-        if (currentShipment.getTotalDeliveryDistance().compareTo(previousShipment.getTotalDeliveryDistance()) < 0) {
-            return new Shipment(currentShipment);
-        } else {
-            return previousShipment;
-        }
     }
 
     private boolean isTotalWeightWithin(BigDecimal maxCapacity, Shipment shipment, Package currentPackage) {
