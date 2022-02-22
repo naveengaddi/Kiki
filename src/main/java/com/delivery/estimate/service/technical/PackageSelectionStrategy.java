@@ -1,85 +1,94 @@
 package com.delivery.estimate.service.technical;
 
 import com.delivery.estimate.domain.Package;
-import com.google.common.collect.Sets;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import static java.util.List.of;
 
 public class PackageSelectionStrategy {
 
     public List<Package> findPackagesWithin(BigDecimal maxCapacity, List<Package> packages) {
-        Set<Set<Package>> powerSet = getPowerSet(packages);
-        Set<Package> selectedPackages = null;
-        BigDecimal maxWeightSoFar = BigDecimal.ZERO;
-        int maxPackagesSoFar = Integer.MIN_VALUE;
-        BigDecimal minDistanceSoFar = BigDecimal.valueOf(Double.MAX_VALUE);
-        for (Set<Package> packageSet : powerSet) {
-            if (packageSet.isEmpty()) continue;
-            BigDecimal totalWeight = getTotalWeight(packageSet);
-            BigDecimal totalDistance = getTotalDistance(packageSet);
-            if (isTotalWeightWithin(maxCapacity, totalWeight)) {
-                if (isPackageSizeGreaterThan(maxPackagesSoFar, packageSet)) {
-                    selectedPackages = packageSet;
-                    maxWeightSoFar = totalWeight;
-                    minDistanceSoFar = totalDistance;
-                    maxPackagesSoFar = packageSet.size();
-                } else if (packageSet.size()==maxPackagesSoFar) {
-                    if (isTotalWeightGreaterThan(maxWeightSoFar, totalWeight)) {
-                        selectedPackages = packageSet;
-                        maxWeightSoFar = totalWeight;
-                        minDistanceSoFar = totalDistance;
-                    } else if (totalWeight.compareTo(maxWeightSoFar)==0) {
-                        if (isTotalDistanceLessThan(minDistanceSoFar, totalDistance)) {
-                            selectedPackages = packageSet;
-                            maxWeightSoFar = totalWeight;
-                            minDistanceSoFar = totalDistance;
-                        }
+        if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) <= 0) {
+            return packages;
+        }
+        if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) > 0) {
+            return Collections.emptyList();
+        }
+        List<Package> sortedPackages = sortByWeight(packages);
+
+        List<Package> selectedPackages = Collections.emptyList();
+        int size = sortedPackages.size();
+        for (int i = 0; i < size; i++) {
+            List<Package> tmpPackageList = new ArrayList<>(of(sortedPackages.get(i)));
+            for (int j = i + 1; j < size; j++) {
+                tmpPackageList.clear();
+                tmpPackageList.add(sortedPackages.get(i));
+                for (int k = j; k < size; k++) {
+                    Package currentPackage = sortedPackages.get(k);
+                    if (isTotalWeightWithin(maxCapacity, tmpPackageList, currentPackage)) {
+                        tmpPackageList.add(currentPackage);
+                    } else {
+                        break;
                     }
                 }
+                selectedPackages = findOptimalPackages(selectedPackages, tmpPackageList);
             }
+            selectedPackages = findOptimalPackages(selectedPackages, tmpPackageList);
         }
-        return listOf(selectedPackages);
+        return selectedPackages;
     }
 
-    private boolean isTotalDistanceLessThan(BigDecimal minDistanceSoFar, BigDecimal totalDistance) {
-        return totalDistance.compareTo(minDistanceSoFar) < 0;
+    private List<Package> sortByWeight(List<Package> packages) {
+        return packages.stream().sorted(Comparator.comparing(Package::getWeight)).collect(Collectors.toList());
     }
 
-    private boolean isPackageSizeGreaterThan(int maxPackagesSoFar, Set<Package> packageSet) {
-        return packageSet.size() > maxPackagesSoFar;
-    }
+    private List<Package> findOptimalPackages(List<Package> previousSelectedPackages, List<Package> currentSelectedPackages) {
 
-    private boolean isTotalWeightGreaterThan(BigDecimal maxWeightSoFar, BigDecimal totalWeight) {
-        return totalWeight.compareTo(maxWeightSoFar) > 0;
-    }
-
-    private List<Package> listOf(Set<Package> maxWeightPackages) {
-        if (maxWeightPackages==null) {
-            return List.of();
+        if (currentSelectedPackages.size() < previousSelectedPackages.size()) {
+            return previousSelectedPackages;
         }
-        return new ArrayList<>(maxWeightPackages);
+        if (currentSelectedPackages.size() > previousSelectedPackages.size()) {
+            return new ArrayList<>(currentSelectedPackages);
+        }
+        if (isCurrentPackageWeightLessThan(previousSelectedPackages, currentSelectedPackages)) {
+            return previousSelectedPackages;
+        }
+        if (isCurrentPackageWeightBiggerThan(previousSelectedPackages, currentSelectedPackages)) {
+            return new ArrayList<>(currentSelectedPackages);
+        }
+        if (isCurrentPackageDistanceLessThan(previousSelectedPackages, currentSelectedPackages)) {
+            return new ArrayList<>(currentSelectedPackages);
+        } else {
+            return previousSelectedPackages;
+        }
     }
 
-    private boolean isTotalWeightWithin(BigDecimal maxCapacity, BigDecimal totalWeight) {
-        return totalWeight.compareTo(maxCapacity) <= 0;
+    private boolean isCurrentPackageDistanceLessThan(List<Package> selectedPackages, List<Package> tmpPackageList) {
+        BigDecimal currentDistance = tmpPackageList.stream().map(Package::getDeliveryDistance).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal previousDistance = selectedPackages.stream().map(Package::getDeliveryDistance).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return currentDistance.compareTo(previousDistance) < 0;
     }
 
-    private BigDecimal getTotalDistance(Set<Package> packageSet) {
-        return packageSet.stream().map(Package::getDeliveryDistance).reduce(BigDecimal.ZERO, BigDecimal::add);
+    private boolean isCurrentPackageWeightLessThan(List<Package> selectedPackages, List<Package> tmpPackageList) {
+        BigDecimal currentWeight = tmpPackageList.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal previousWeight = selectedPackages.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return currentWeight.compareTo(previousWeight) < 0;
     }
 
-    private BigDecimal getTotalWeight(Set<Package> packageSet) {
-        return packageSet.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+    private boolean isCurrentPackageWeightBiggerThan(List<Package> selectedPackages, List<Package> tmpPackageList) {
+        BigDecimal currentWeight = tmpPackageList.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal previousWeight = selectedPackages.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return currentWeight.compareTo(previousWeight) > 0;
     }
 
-    private Set<Set<Package>> getPowerSet(List<Package> packages) {
-        Set<Package> setOfPackages = new TreeSet<>(Comparator.comparing(Package::getId));
-        setOfPackages.addAll(packages);
-        return Sets.powerSet(setOfPackages);
+    private boolean isTotalWeightWithin(BigDecimal maxCapacity, List<Package> packages, Package currentPackage) {
+        BigDecimal currentWeight = packages.stream().map(Package::getWeight).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return currentWeight.add(currentPackage.getWeight()).compareTo(maxCapacity) <= 0;
     }
 }
