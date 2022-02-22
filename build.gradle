@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.22'
     implementation group: 'com.google.guava', name: 'guava', version: '19.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
