@@ -4,6 +4,7 @@ import com.delivery.estimate.domain.Package;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -42,5 +43,44 @@ class ShipmentTest {
 
         assertEquals(BigDecimal.valueOf(90), shipment.getTotalWeight());
         assertEquals(BigDecimal.valueOf(14), shipment.getTotalDeliveryDistance());
+    }
+
+    @Test
+    void shouldReturnTotalWeightAs30AndTotalDeliveryDistance14() {
+        Package packageItem1 = mock(Package.class);
+        Package packageItem2 = mock(Package.class);
+        Package packageItem3 = mock(Package.class);
+        when(packageItem1.getWeight()).thenReturn(BigDecimal.valueOf(10));
+        when(packageItem2.getWeight()).thenReturn(BigDecimal.valueOf(5));
+        when(packageItem3.getWeight()).thenReturn(BigDecimal.valueOf(15));
+        when(packageItem1.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(6));
+        when(packageItem2.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(4));
+        when(packageItem3.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(4));
+
+        List<Package> packages = List.of(packageItem1, packageItem2, packageItem3);
+        Shipment shipment = new Shipment(packages);
+
+        assertEquals(BigDecimal.valueOf(30), shipment.getTotalWeight());
+        assertEquals(BigDecimal.valueOf(14), shipment.getTotalDeliveryDistance());
+    }
+
+    @Test
+    void shouldReturnTotalWeightAs130AndTotalDeliveryDistance140() {
+        Package packageItem1 = mock(Package.class);
+        Package packageItem2 = mock(Package.class);
+        Package packageItem3 = mock(Package.class);
+        when(packageItem1.getWeight()).thenReturn(BigDecimal.valueOf(100));
+        when(packageItem2.getWeight()).thenReturn(BigDecimal.valueOf(5));
+        when(packageItem3.getWeight()).thenReturn(BigDecimal.valueOf(25));
+        when(packageItem1.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(60));
+        when(packageItem2.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(40));
+        when(packageItem3.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(40));
+
+        List<Package> packages = List.of(packageItem1, packageItem2, packageItem3);
+        Shipment shipment = new Shipment();
+        shipment.addAll(packages);
+
+        assertEquals(BigDecimal.valueOf(130), shipment.getTotalWeight());
+        assertEquals(BigDecimal.valueOf(140), shipment.getTotalDeliveryDistance());
     }
 }
