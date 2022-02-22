@@ -21,14 +21,15 @@ public class PackageSelectionStrategy {
         int size = sortedPackages.size();
         for (int i = 0; i < size; i++) {
             Shipment currentShipment = new Shipment(maxCapacity);
-            currentShipment.add(sortedPackages.get(i));
-            for (int j = i + 1; j < size; j++) {
-                currentShipment.clear();
-                currentShipment.add(sortedPackages.get(i));
-                addPackagesTo(currentShipment, sortedPackages, j, size);
-                selectedShipment = selectBetterShipment(selectedShipment, currentShipment);
-            }
+            Package selectedPackage = sortedPackages.get(i);
+            currentShipment.add(selectedPackage);
             selectedShipment = selectBetterShipment(selectedShipment, currentShipment);
+            for (int j = i + 1; j < size; j++) {
+                currentShipment.addAll(sortedPackages.subList(j, size));
+                selectedShipment = selectBetterShipment(selectedShipment, currentShipment);
+                currentShipment.clear();
+                currentShipment.add(selectedPackage);
+            }
         }
         return selectedShipment;
     }
@@ -38,14 +39,6 @@ public class PackageSelectionStrategy {
             selectedShipment = new Shipment(currentShipment);
         }
         return selectedShipment;
-    }
-
-    private void addPackagesTo(Shipment currentShipment, List<Package> sortedPackages, int fromIndex, int toIndex) {
-        for (int k = fromIndex; k < toIndex; k++) {
-            if (!currentShipment.add(sortedPackages.get(k))) {
-                break;
-            }
-        }
     }
 
     private List<Package> sortByWeight(List<Package> packages) {
