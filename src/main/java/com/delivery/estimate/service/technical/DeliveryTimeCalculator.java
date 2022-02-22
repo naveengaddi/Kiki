@@ -9,7 +9,10 @@ import java.math.RoundingMode;
 public class DeliveryTimeCalculator {
 
     public BigDecimal calculate(Vehicle vehicle, Package packageItem) {
-        return vehicle.getAvailableAt()
-                .add(packageItem.getDeliveryDistance().divide(vehicle.getMaxSpeed(), 2, RoundingMode.DOWN));
+        BigDecimal deliveryDistance = packageItem.getDeliveryDistance();
+        BigDecimal maxSpeed = vehicle.getMaxSpeed();
+        BigDecimal availableAt = vehicle.getAvailableAt();
+        return availableAt.plus().add(deliveryDistance.divide(maxSpeed, 2, RoundingMode.DOWN));
+
     }
 }

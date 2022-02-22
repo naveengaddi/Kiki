@@ -34,7 +34,9 @@ public class Package {
     public BigDecimal deliveryCost() {
         BigDecimal weightCost = calculateCostFor(weight, WEIGHT_MULTIPLIER);
         BigDecimal distanceCost = calculateCostFor(deliveryDistance, DISTANCE_MULTIPLIER);
-        return baseDeliveryCost.add(weightCost).add(distanceCost);
+        return baseDeliveryCost
+                .plus().add(weightCost)
+                .plus().add(distanceCost);
     }
 
     private BigDecimal calculateCostFor(BigDecimal value, int multiplier) {
