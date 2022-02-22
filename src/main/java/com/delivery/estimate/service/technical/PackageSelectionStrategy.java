@@ -3,17 +3,16 @@ package com.delivery.estimate.service.technical;
 import com.delivery.estimate.domain.Package;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PackageSelectionStrategy {
 
-    public List<Package> findPackagesWithin(BigDecimal maxCapacity, List<Package> packages) {
+    public Shipment findPackagesWithin(BigDecimal maxCapacity, List<Package> packages) {
 
         if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) > 0) {
-            return Collections.emptyList();
+            return new Shipment();
         }
         List<Package> sortedPackages = sortByWeight(packages);
 

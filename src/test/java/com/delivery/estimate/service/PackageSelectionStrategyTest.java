@@ -3,6 +3,7 @@ package com.delivery.estimate.service;
 import com.delivery.estimate.domain.Package;
 import com.delivery.estimate.domain.PackageFactory;
 import com.delivery.estimate.service.technical.PackageSelectionStrategy;
+import com.delivery.estimate.service.technical.Shipment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +33,9 @@ class PackageSelectionStrategyTest {
         when(packageItem.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(10));
         List<Package> packages = List.of(packageItem);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(1, packageList.size());
-        assertTrue(packageList.contains(packageItem));
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(1, shipment.size());
+        assertTrue(shipment.contains(packageItem));
     }
 
     @Test
@@ -46,8 +47,8 @@ class PackageSelectionStrategyTest {
         when(packageItem.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(10));
         List<Package> packages = List.of(packageItem);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(0, packageList.size());
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(0, shipment.size());
     }
 
     @Test
@@ -63,10 +64,10 @@ class PackageSelectionStrategyTest {
         when(packageItem2.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(10));
         List<Package> packages = List.of(packageItem1, packageItem2);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(2, packageList.size());
-        assertTrue(packageList.contains(packageItem1));
-        assertTrue(packageList.contains(packageItem2));
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(2, shipment.size());
+        assertTrue(shipment.contains(packageItem1));
+        assertTrue(shipment.contains(packageItem2));
     }
 
     @Test
@@ -86,10 +87,10 @@ class PackageSelectionStrategyTest {
         when(packageItem3.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(10));
         List<Package> packages = List.of(packageItem1, packageItem2, packageItem3);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(2, packageList.size());
-        assertTrue(packageList.contains(packageItem1));
-        assertTrue(packageList.contains(packageItem2));
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(2, shipment.size());
+        assertTrue(shipment.contains(packageItem1));
+        assertTrue(shipment.contains(packageItem2));
     }
 
     @Test
@@ -109,10 +110,10 @@ class PackageSelectionStrategyTest {
         when(packageItem3.getDeliveryDistance()).thenReturn(BigDecimal.valueOf(110));
         List<Package> packages = List.of(packageItem1, packageItem2, packageItem3);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(2, packageList.size());
-        assertTrue(packageList.contains(packageItem1));
-        assertTrue(packageList.contains(packageItem2));
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(2, shipment.size());
+        assertTrue(shipment.contains(packageItem1));
+        assertTrue(shipment.contains(packageItem2));
     }
 
     @Test
@@ -124,10 +125,10 @@ class PackageSelectionStrategyTest {
         packages.add(PackageFactory.createPackage("pkg4", BigDecimal.valueOf(40), BigDecimal.valueOf(10), "OFR001", null));
         BigDecimal maxLoad = BigDecimal.valueOf(100);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(2, packageList.size());
-        assertEquals("pkg4",packageList.get(0).getId());
-        assertEquals("pkg3",packageList.get(1).getId());
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(2, shipment.size());
+        assertEquals("pkg4", shipment.get(0).getId());
+        assertEquals("pkg3", shipment.get(1).getId());
     }
 
     @Test
@@ -162,10 +163,10 @@ class PackageSelectionStrategyTest {
 
         List<Package> packages = List.of(packageItem1, packageItem2, packageItem3, packageItem4, packageItem5, packageItem6);
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        assertEquals(2, packageList.size());
-        assertTrue(packageList.contains(packageItem3));
-        assertTrue(packageList.contains(packageItem4));
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        assertEquals(2, shipment.size());
+        assertTrue(shipment.contains(packageItem3));
+        assertTrue(shipment.contains(packageItem4));
     }
 
     @Test
@@ -180,13 +181,13 @@ class PackageSelectionStrategyTest {
         packages.add(PackageFactory.createPackage("PKG5", BigDecimal.valueOf(155), BigDecimal.valueOf(95), "OFR001", null));
 
 
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
-        for (Package aPackage : packageList) {
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(maxLoad, packages);
+        for (Package aPackage : shipment) {
             System.out.println(aPackage);
         }
-        assertEquals(2, packageList.size());
-       // assertTrue(packageList.contains(packageItem2));
-       // assertTrue(packageList.contains(packageItem4));
+        assertEquals(2, shipment.size());
+        // assertTrue(shipment.contains(packageItem2));
+        // assertTrue(shipment.contains(packageItem4));
     }
 
     @Test
@@ -195,8 +196,8 @@ class PackageSelectionStrategyTest {
         packages.add(PackageFactory.createPackage("pkg1", BigDecimal.valueOf(50), BigDecimal.valueOf(30), "OFR001", null));
         packages.add(PackageFactory.createPackage("pkg3", BigDecimal.valueOf(175), BigDecimal.valueOf(100), "OFR001", null));
         packages.add(PackageFactory.createPackage("pkg5", BigDecimal.valueOf(155), BigDecimal.valueOf(95), "OFR001", null));
-        List<Package> packageList = packageSelectionStrategy.findPackagesWithin(BigDecimal.valueOf(200), packages);
-        assertEquals(1,packageList.size());
-        assertEquals("pkg3",packageList.get(0).getId());
+        Shipment shipment = packageSelectionStrategy.findPackagesWithin(BigDecimal.valueOf(200), packages);
+        assertEquals(1, shipment.size());
+        assertEquals("pkg3", shipment.get(0).getId());
     }
 }
