@@ -8,7 +8,6 @@ import com.delivery.estimate.service.technical.Shipment;
 import com.delivery.estimate.service.technical.VehicleSelectionStrategy;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,7 @@ public class DeliveryEstimateService {
             Shipment shipment = packageSelectionStrategy.findPackagesWithin(vehicle.getMaxLoad(), packagesToDeliverNext(packages));
             updateDeliveryTimeForPackages(vehicle, shipment);
             BigDecimal deliveryTime = shipment.lastPackageDeliveryTime();
-            updateVehicleNextAvailableTime(vehicle, deliveryTime);
+            vehicle.updateAvailableTimeFrom(deliveryTime);
         } while (allPackagesEstimated(packages));
         return packages;
     }
@@ -44,10 +43,6 @@ public class DeliveryEstimateService {
             BigDecimal deliveryTime = deliveryTimeCalculator.calculate(vehicle, packageItem);
             packageItem.updateDeliveryTime(deliveryTime);
         });
-    }
-
-    private void updateVehicleNextAvailableTime(Vehicle vehicle, BigDecimal deliveryTime) {
-        vehicle.updateAvailableTime(deliveryTime.multiply(BigDecimal.valueOf(2)));
     }
 
     private List<Package> packagesToDeliverNext(List<Package> packages) {

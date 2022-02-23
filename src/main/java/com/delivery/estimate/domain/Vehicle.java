@@ -12,7 +12,7 @@ public class Vehicle {
     private final BigDecimal maxSpeed;
     private BigDecimal availableAt;
 
-    public void updateAvailableTime(BigDecimal nextAvailableTime) {
-        this.availableAt = this.availableAt.add(nextAvailableTime);
+    public void updateAvailableTimeFrom(BigDecimal nextAvailableTime) {
+        this.availableAt = this.availableAt.plus().add(nextAvailableTime.multiply(BigDecimal.valueOf(2)));
     }
 }
