@@ -48,16 +48,22 @@ public class Shipment extends ArrayList<Package> {
     }
 
     public boolean isBetterThan(Shipment that) {
-        if (that.size() < this.size()) {
+        if (this.size() > that.size()) {
             return true;
-        } else if (that.size() > this.size()) {
-            return false;
-        } else if (that.getTotalWeight().compareTo(this.getTotalWeight()) < 0) {
-            return true;
-        } else if (that.getTotalWeight().compareTo(this.getTotalWeight()) > 0) {
+        }
+        if (this.size() < that.size()) {
             return false;
         }
-        return that.getTotalDeliveryDistance().compareTo(this.getTotalDeliveryDistance()) > 0;
+        if (this.getTotalWeight().compareTo(that.getTotalWeight()) > 0) {
+            return true;
+        }
+        if (this.getTotalWeight().compareTo(that.getTotalWeight()) < 0) {
+            return false;
+        }
+        if (this.getTotalDeliveryDistance().compareTo(that.getTotalDeliveryDistance()) < 0) {
+            return true;
+        }
+        return false;
     }
 
     public BigDecimal lastPackageDeliveryTime() {
