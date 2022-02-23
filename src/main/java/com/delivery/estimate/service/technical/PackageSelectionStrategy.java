@@ -11,11 +11,7 @@ public class PackageSelectionStrategy {
 
     public Shipment findPackagesWithin(BigDecimal maxCapacity, List<Package> packages) {
 
-        if (packages.size()==1 && packages.get(0).getWeight().compareTo(maxCapacity) > 0) {
-            return new Shipment();
-        }
         List<Package> sortedPackages = sortByWeight(packages);
-
         Shipment selectedShipment = new Shipment(maxCapacity);
         int size = sortedPackages.size();
         for (int i = 0; i < size; i++) {
