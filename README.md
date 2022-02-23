@@ -92,5 +92,6 @@ PKG5 0 2125 4.19
 
 
 ### Scope for improvement
-1. Package selection strategy is little complex so can be improved.
+1. is BigDecimal needed for time, weight, distance ?
+2. DeliveryEstimateService can be improved further.
 
