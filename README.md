@@ -36,6 +36,7 @@ applicable).
 ![](example.png)
 
 Note:
+
 1. Package Weight is in Kilograms(KG)
 2. Delivery Distance is in Kilometers(KM)
 3. Max Speed is in KM/Hour
@@ -62,10 +63,10 @@ packageId2 discountAmount2 totalCost2 estimatedDeliveryTime2
 ...
 ```
 
-
 ### Example input and output
 
 Input:
+
 ```text
 100 5
 PKG1 50 30 OFR001
@@ -77,6 +78,7 @@ PKG5 155 95 NA
 ```
 
 Output:
+
 ```text
 PKG1 0 750 3.98
 PKG2 0 1475 1.78
@@ -85,13 +87,31 @@ PKG4 105 1395 0.85
 PKG5 0 2125 4.19
 ```
 
+### To add more offers
+
+Navigate to resources folder and edit `offers.json`
+
+   current format of offers (List of offer objects)
+   ```json
+      [
+            {
+               "offerCode": String,
+               "minWeight": Number,
+               "maxWeight": Number,
+               "minDistance": Number,
+               "maxDistance": Number,
+               "percentage": Number
+            },
+            ...
+      ]
+   ```
 
 ### Architecture diagram
 
 ![](architechture.png)
 
-
 ### Scope for improvement
+
 1. is BigDecimal needed for time, weight, distance ?
 2. DeliveryEstimateService can be improved further.
 
